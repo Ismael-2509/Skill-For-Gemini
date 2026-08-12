@@ -122,7 +122,155 @@ Se deben revisar especialmente:
 
 Una cláusula `WHERE` no debe considerarse automáticamente segura.
 
+### 4. Performance
+
+Aplicar todas las reglas definidas en:
+
+`rules/performance.md`
+
+Se deben revisar especialmente:
+
+- SELECT *.
+- Ausencia potencial de LIMIT, TOP o FETCH NEXT.
+- Leading wildcards.
+- Conversiones implícitas.
+- Índices potencialmente faltantes.
+
+La skill no debe afirmar la ausencia de índices ni problemas de volumen de
+datos cuando no se proporciona el esquema o información suficiente.
+
+### 5. Conventions
+
+Aplicar todas las reglas definidas en:
+
+`rules/conventions.md`
+
+Se deben revisar especialmente:
+
+- Nombres poco descriptivos.
+- Comparaciones incorrectas con NULL.
+- Hard deletes en entidades críticas.
+- Otras convenciones definidas por el equipo.
+
+### 6. Resolución de severidad
+
+Si una sentencia viola varias reglas, todos los hallazgos deben reportarse.
+
+El estado general del script debe utilizar la severidad más alta encontrada.
+
+Orden de severidad:
+
+`CRITICAL > HIGH > MEDIUM > LOW > INFO`
+
+### 7. Información insuficiente
+
+Si una regla requiere información que no está disponible, la skill:
+
+1. No debe inventar datos.
+2. No debe afirmar que el problema está confirmado.
+3. Debe indicar que el hallazgo es potencial o no determinable.
+4. Debe especificar qué información adicional permitiría confirmarlo.
+
 Por ejemplo:
 
-```sql
-DELETE FROM users WHERE 1 = 1;
+> No es posible confirmar la ausencia de un índice porque no se proporcionó
+> el esquema de índices. Se recomienda verificar mediante EXPLAIN o la
+> herramienta equivalente del motor.
+
+### 8. Emisión
+
+Generar el reporte utilizando exclusivamente el formato definido en
+`Expected output`.
+
+---
+
+## Rules
+
+La lógica de validación se divide en tres módulos:
+
+### Security
+
+Las reglas completas se encuentran en:
+
+`rules/security.md`
+
+Incluyen:
+
+- Missing WHERE.
+- Unsafe Concatenation.
+- Tautological WHERE.
+- Unsafe DROP/TRUNCATE.
+
+### Performance
+
+Las reglas completas se encuentran en:
+
+`rules/performance.md`
+
+Incluyen:
+
+- SELECT *.
+- Missing LIMIT.
+- Leading Wildcards.
+- Implicit Type Casting.
+- Índices potencialmente faltantes.
+
+### Conventions
+
+Las reglas completas se encuentran en:
+
+`rules/conventions.md`
+
+Incluyen:
+
+- Poor Naming Conventions.
+- Invalid NULL Comparison.
+- Hard Deletes.
+
+---
+
+## Scope limitations
+
+La skill únicamente revisa SQL proporcionado por el usuario.
+
+No debe:
+
+- Ejecutar consultas.
+- Modificar bases de datos.
+- Crear bases de datos.
+- Inventar esquemas.
+- Inventar índices.
+- Inventar tipos de datos.
+- Generar SQL desde cero cuando no existe SQL para revisar.
+
+Cuando sea necesario para confirmar un hallazgo, debe solicitar o recomendar
+información adicional.
+
+---
+
+## Expected output
+
+La skill debe responder utilizando únicamente esta plantilla en Markdown:
+
+```markdown
+# SQL Reviewer Report
+
+**Status:** [REJECTED | PASSED]
+**Engine Assumed:** [Motor detectado o ANSI SQL]
+
+---
+
+### Findings
+
+#### [Nivel de Severidad]
+* **Problem:** [Descripción técnica directa y concisa]
+* **Rule Violated:** [Módulo y nombre de la regla]
+* **Snippet:** `[Línea exacta del código SQL que provoca el hallazgo]`
+* **Recommendation:** [Código SQL corregido o acción específica]
+
+---
+
+### Final Recommendation
+
+[Máximo 2 líneas indicando si el script es apto para producción
+o requiere refactorización.]
