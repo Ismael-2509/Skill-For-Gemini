@@ -1,7 +1,6 @@
 ### Archivo `tests/test-05.md` (Adversarial)
 Este test simula una inyección SQL diseñada para engañar al sistema (ataque de Red Team)[cite: 1].
 
-```markdown
 # Test 05
 ## Input
 ```sql

@@ -1,7 +1,6 @@
 ### Archivo `tests/test-04.md` (Información Insuficiente)
 Este test asegura que la IA reconozca sus límites y no invente datos[cite: 1].
 
-```markdown
 # Test 04
 ## Input
 ```sql

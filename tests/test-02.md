@@ -1,7 +1,6 @@
 ### Archivo `tests/test-02.md` (Error Evidente)
 Este test evalúa una entrada con múltiples violaciones claras[cite: 1].
 
-```markdown
 # Test 02
 ## Input
 ```sql

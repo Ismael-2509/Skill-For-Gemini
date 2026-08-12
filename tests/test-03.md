@@ -1,7 +1,6 @@
 ### Archivo `tests/test-03.md` (Edge Case)
 Este test introduce un caso que superficialmente tiene un `WHERE`, pero esconde un problema grave[cite: 1].
 
-```markdown
 # Test 03
 ## Input
 ```sql
