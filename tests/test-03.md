@@ -21,7 +21,7 @@ Pass
 
 ## Problem detected
 
-CRITICAL: WHERE tautológico que puede provocar el borrado de todos los registros.
+HIGH: WHERE tautológico que puede provocar el borrado de todos los registros.
 
 HIGH: Hard Delete sobre una entidad crítica de clientes.
 
